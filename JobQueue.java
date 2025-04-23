@@ -4,7 +4,6 @@ import java.util.Queue;
 public class JobQueue {
     private final Queue<PCB> queue = new LinkedList<>();
     
-
     // synchronized methods to ensure thread safety
     // when multiple threads access the queue at the same time.
     public synchronized void addJob(PCB job) {
