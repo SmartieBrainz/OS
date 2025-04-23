@@ -25,7 +25,7 @@ class MemoryManager implements Runnable {
                     // Exit if both queues are empty
                     break;
                 } else {
-                    Thread.sleep(100);
+                    Thread.sleep(100); // Sleep for a short time to avoid constantly using the cpu aka busy waiting
                 }
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
