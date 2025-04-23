@@ -1,9 +1,9 @@
 class PCB {
-    private int id;
     private String state;
-    private int priority;
-    private int memorySize;
-    private int burstTime;
+    private final int id;
+    private final int priority;
+    private final int memorySize;
+    private final int burstTime;
 
     public PCB(int id, int burstTime, int priority, int memorySize) {
         this.id = id;
@@ -12,6 +12,13 @@ class PCB {
         this.memorySize = memorySize;
         this.state = "New";
     }
+
+    public int getId() { return id; }
+    public String getState() { return state; }
+    public void setState(String state) { this.state = state; }
+    public int getPriority() { return priority; }
+    public int getMemorySize() { return memorySize; }
+    public int getBurstTime() { return burstTime; }
 
     @Override
     public String toString() {
