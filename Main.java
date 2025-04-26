@@ -21,7 +21,7 @@ public class Main {
         memmgr.interrupt();
         memmgr.join();
 
-        // 3) ask user which to run or all
+        // 3) ask user which to run or alla
         Scanner sc = new Scanner(System.in);
         System.out.println("Choose: 1=FCFS, 2=RR, 3=Priority");
         int choice = sc.nextInt();
