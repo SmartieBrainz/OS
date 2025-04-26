@@ -32,7 +32,7 @@ public void run() {
         }
     }
     // once interrupted, exit—by then jobQueue should have been drained
-    }
+}
 
 
     private void allocateMemory(PCB job) {

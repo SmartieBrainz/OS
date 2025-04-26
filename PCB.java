@@ -5,7 +5,7 @@ class PCB {
     private final int memorySize;
     private final int burstTime;
 
-     private int remainingTime;     // for RR
+    private int remainingTime;     // for RR
     private int arrivalTime = 0;  // when the job reached the ready queue
     private int startTime  = -1;   // first time on the CPU
     private int finishTime = -1;   // completion time
