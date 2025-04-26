@@ -15,23 +15,25 @@ class MemoryManager implements Runnable {
     }
 
     @Override
-    public void run() {
-        while (!Thread.currentThread().isInterrupted()) {
+public void run() {
+    // assume we’ll signal “reader done” by interrupting this thread
+    while (!Thread.currentThread().isInterrupted()) {
+        PCB job = jobQueue.getJob();
+
+        if (job != null) {
+            allocateMemory(job);
+        } else {
+            // if there might still be jobs coming, just wait
             try {
-                PCB job = jobQueue.getJob(); // Use getJob() from your JobQueue
-                if (job != null) {
-                    allocateMemory(job);
-                } else if (jobQueue.isEmpty() && readyQueue.isEmpty()) {
-                    // Exit if both queues are empty
-                    break;
-                } else {
-                    Thread.sleep(100);
-                }
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
         }
     }
+    // once interrupted, exit—by then jobQueue should have been drained
+    }
+
 
     private void allocateMemory(PCB job) {
         synchronized (memoryLock) {
@@ -74,4 +76,27 @@ class MemoryManager implements Runnable {
             return new LinkedList<>(readyQueue); // Return a copy
         }
     }
+
+    public synchronized PCB fetchReadyJob() {
+        return readyQueue.poll();        // atomic remove for the scheduler thread
+    }
+
+     /** Used by RR to re-queue a partially executed process. */
+     public synchronized void requeueJob(PCB job) {
+        readyQueue.offer(job);
+    }
+
+    /** Removes and returns the highest-priority job in the ready queue. */
+    public synchronized PCB pollHighestPriorityJob() {
+        PCB best = null;
+        for (PCB p : readyQueue) {
+            if (best == null || p.getPriority() > best.getPriority()) {
+                best = p;
+            }
+        }
+        if (best != null) readyQueue.remove(best);
+        return best;
+    }
+
+    
 }
